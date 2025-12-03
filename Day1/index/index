@@ -1,0 +1,84 @@
+console.log("Hello Ioana");
+
+const fs = require('fs');
+let arrayRight = [];
+let countZeros = 0;
+
+try {
+    const data = fs.readFileSync('input.txt', 'utf8');
+    // #1 First Part 
+    //   console.log(data);
+    // const range = 100; // Range is 0 to 99 (100 total numbers)
+    // let newValue = 0;
+    // let currentValue = 50;
+    // for (const nr of data.split(/\r?\n/)) {
+    //     let lineArray = nr.split(" ");
+    //     console.log(lineArray);
+    //     for (const line of lineArray) {
+    //         let fistChar = line[0];
+    //         let number = parseInt(line.slice(1));
+
+    //         console.log(fistChar);
+    //         console.log(number);
+
+    //          // Range is 0 to 99 (100 total numbers)
+    //          if(fistChar === 'L'){
+    //             number = -number;
+    //          }
+
+    //         let c = currentValue + number;
+    //         currentValue = ((c % range) + range) % range;
+    //          console.log(currentValue);
+    //         // currentValue = (currentValue + number) % range;
+    //         // console.log(currentValue);
+    //         // Handle negative numbers when subtracting: 
+    //         // The modulo operator in JS can return a negative number for a negative input.
+    //         // This ensures the result wraps correctly from -1 to 99.
+    //         // if (currentValue < 0) {
+    //         //     currentValue += range;
+    //         // }
+    //         if(currentValue === 0){
+    //             countZeros++;
+    //         }
+            
+    //     }
+    // }
+
+
+    // # 2 Second part
+    const range = 100; // Range is 0 to 99 (100 total numbers)
+    let newValue = 0;
+    let currentValue = 50;
+    for (const nr of data.split(/\r?\n/)) {
+        let lineArray = nr.split(" ");
+        console.log(lineArray);
+        for (const line of lineArray) {
+            let fistChar = line[0];
+            let number = parseInt(line.slice(1));
+
+            console.log(fistChar);
+            console.log(number);
+
+             // Range is 0 to 99 (100 total numbers)
+             if(fistChar === 'L'){
+                number = -number;
+             }
+
+            // Step one unit at a time so we detect passing through zero
+            const steps = Math.abs(number);
+            const dir = number > 0 ? 1 : -1;
+            for (let s = 1; s <= steps; s++) {
+                const c = currentValue + dir;
+                currentValue = ((c % range) + range) % range;
+                console.log(currentValue);
+                if (currentValue === 0) {
+                    countZeros++;
+                }
+            }
+        }
+    }
+
+    console.log(`The number of zeros is: ${countZeros}`);
+} catch (err) {
+    console.error(err);
+}
